@@ -16,15 +16,12 @@ class Simulator:
         self.labels   = {} # store label:uid mapping
         self.curr_uid = 0
 
+    #def __setitem__(self, key, value):
     #def __getitem__(self, key):
         # TODO: handle improper keys with keyerror exceptions and stuff
         # TODO: allow to use uid instead of label too?
-    #    return self.G[self.labels[key]]['unit']
 
-    #def __setitem__(self, key, value):
-    #    self.G[self.labels[key]]['unit'] = value
-
-    def add_unit(self, unit=CustomUnit, uid=None, tags=set(), ports={}, 
+    def add_unit(self, unit=PrototypeUnit, uid=None, tags=set(), ports={}, 
                  label=None):
         """ Add a unit to the graph. """
         uid = uid if uid != None else self.get_uid()
@@ -35,7 +32,9 @@ class Simulator:
             self.labels[label] = uid
 
     def connect(self, pre, pre_portID, post, post_portID):
-        # if connection doesn't exist, make it; otherwise just add map
+        """ If connection doesn't exist, make it; otherwise just add map. """
+        # verify both nodes exist...
+        assert pre in self.G and post in self.G
         if post not in self.G.node[pre]:
             self.G.add_edge(pre, post, maps=dict())
             self.G.edge[pre][post]['maps'][post_portID] = [pre_portID]
@@ -63,21 +62,33 @@ if __name__ == '__main__':
     S.add_unit(unit=IncrementUnit)
     S.add_unit(unit=IncrementUnit)
     S.add_unit(unit=IncrementUnit)
+    S.add_unit(unit=IncrementUnit)
+    S.add_unit(unit=IncrementUnit)
+    S.add_unit(unit=SumUnit)
     S.list_nodes()
-    
+
+    # verify one-to-many works
+    # verify many-to-one works
+    # REALLLLLLLLY need labeling....
+    # should make a list_connections thing too
+
+    # increment loop
     S.connect(0, 'output', 1, 'input')
+    S.connect(1, 'output', 2, 'input')
+    S.connect(2, 'output', 3, 'input')
+    S.connect(3, 'output', 4, 'input')
+    S.connect(4, 'output', 0, 'input')
+    # sum things
+    S.connect(0, 'output', 5, 'input')
+    S.connect(1, 'output', 5, 'input')
+    S.connect(2, 'output', 5, 'input')
+    S.connect(3, 'output', 5, 'input')
+    S.connect(4, 'output', 5, 'input')
 
-    S.step_simulation()
-    S.step_simulation()
-    S.step_simulation()
-    S.step_simulation()
+    print S.G.edges()
     
-    S.list_nodes()
-
-    # hmm, are they not getting separate instances of Unit class?
-
-    #for n in S.G:
-    #    print n, 'id:', id(S.G.node[n])
-
+    for i in range(5):
+        S.step_simulation()
+        S.list_nodes()
 
 

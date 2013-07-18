@@ -7,10 +7,10 @@ Make this a unit that has lots of functionality to allow customization
 """
 
 
-class CustomUnit(Unit):
+class PrototypeUnit(Unit):
     
     def __init__(self, simulator, uid=None):
-        super(CustomUnit, self).__init__(simulator, uid)
+        super(PrototypeUnit, self).__init__(simulator, uid)
         self.set_port('input', [0])
         self.set_port('output', [0])
 

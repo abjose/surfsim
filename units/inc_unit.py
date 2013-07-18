@@ -8,8 +8,6 @@ class IncrementUnit(Unit):
     def __init__(self, simulator, uid=None, tags=set(), ports={}):
         super(IncrementUnit, self).__init__(simulator, uid=uid, 
                                             tags=tags, ports=ports)
-        #Unit.__init__(self, simulator, uid=uid, tags=tags, ports=ports)
-        #print id(super(IncrementUnit, self))
         self.set_port('input', [0])
         self.set_port('output', [0])
         self.set_port('test', [-1])

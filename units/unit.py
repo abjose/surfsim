@@ -42,15 +42,19 @@ class Unit(object):
                     del self.S.G.edge[p][s]['maps'][portID]
 
     def update_input(self):
-        # iterate over every inbound edge, get mapping, get data
-        for p,s in self.S.G.in_edges(self.uid):
-            edge, pre = self.S.G.edge[p][s], self.S.G.node[p]
-            
-            for post_portID in edge['maps']:
-                data = []
-                for pre_portID in edge['maps'][post_portID]:
-                    #print 'unit',s,'got data from port',pre_portID,'of unit',p 
-                    data.append(pre['unit'].ports[pre_portID])
-                # for now, flatten data
-                self.set_port(post_portID, [d for s in data for d in s])
+        """ Update all ports with values of ports they connect to.  """
+        edges = self.S.G.in_edges(self.uid)
+        for postpid in self.ports:
+            data = []
+            for p,s in edges:
+                maps = self.S.G.edge[p][s]['maps']
+                if postpid in maps:
+                    pre = self.S.G.node[p]['unit']
+                    data += [pre.ports[prepid] for prepid in maps[postpid]]
+            # flatten data for now...
+            self.set_port(postpid, [d for s in data for d in s])
 
+
+
+if __name__=="__main__":
+    pass
