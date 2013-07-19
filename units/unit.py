@@ -23,14 +23,13 @@ class Unit(object):
     #def get_port(self, portID):
     #    return self.ports[portID]
 
-    def set_port(self, portID, value, overwrite=True):
+    def set_port(self, portID, *args):  #value, overwrite=True):
         """ Update specified output port's value; add port if nonexistent. """
-        # MUST BE A LIST...?
-        # TODO: add default value?
-        if overwrite or portID not in self.ports:
-            self.ports[portID] = value
-        else:
-            print "Warning: didn't modify port", portID
+        # args added as values
+        if portID not in self.ports: #overwrite or portID not in self.ports:
+            self.ports[portID] = list(args) #value #kwargs.values()
+        #else:
+        #    print "Warning: didn't modify port", portID
 
     def remove_port(self, portID):
         if key in self.ports:
