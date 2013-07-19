@@ -17,9 +17,11 @@ class Simulator:
         self.curr_uid = 0
 
     #def __setitem__(self, key, value):
-    #def __getitem__(self, key):
-        # TODO: handle improper keys with keyerror exceptions and stuff
-        # TODO: allow to use uid instead of label too?
+    def __getitem__(self, key):
+        uid = self.tags[key].copy()
+        if len(uid) != 1:
+            raise KeyError("non-unique identifier in __getitem__")
+        return self.G.node[uid.pop()]['unit']
 
     def add_unit(self, unit=PrototypeUnit, uid=None, tags=set(), ports={}):
         """ Add a unit to the graph. """
@@ -45,6 +47,9 @@ class Simulator:
         """ Build dict of sets of uids from tags. Premature optimization! :( """
         d = {}
         for uid in self.G:
+            # add so tags give identity for uid...laziness
+            d[uid] = set([uid])
+            # now build other tags
             for t in self.G.node[uid]['unit'].tags:
                 d.setdefault(t,set()).add(uid) # or |= u
         self.tags = d
@@ -72,8 +77,7 @@ if __name__ == '__main__':
 
     # verify one-to-many works
     # verify many-to-one works
-    # REALLLLLLLLY need labeling....
-    # should make a list_connections thing too
+    # should make a list_connections function (like list_nodes)
 
     # increment loop
     S.connect(0, 'output', 1, 'input')
@@ -94,3 +98,5 @@ if __name__ == '__main__':
 
     S.refresh_tags()
 
+    print S['test1'].ports
+    print S[0].ports

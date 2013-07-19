@@ -27,7 +27,6 @@ class Unit(object):
         """ Update specified output port's value; add port if nonexistent. """
         # MUST BE A LIST...?
         # TODO: add default value?
-        #print portID, value
         if overwrite or portID not in self.ports:
             self.ports[portID] = value
         else:
