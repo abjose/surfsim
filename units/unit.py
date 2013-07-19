@@ -20,16 +20,10 @@ class Unit(object):
     def describe(self):
         pass
 
-    #def get_port(self, portID):
-    #    return self.ports[portID]
-
-    def set_port(self, portID, *args):  #value, overwrite=True):
+    def set_port(self, portID, *values):
         """ Update specified output port's value; add port if nonexistent. """
-        # args added as values
-        if portID not in self.ports: #overwrite or portID not in self.ports:
-            self.ports[portID] = list(args) #value #kwargs.values()
-        #else:
-        #    print "Warning: didn't modify port", portID
+        if portID not in self.ports: 
+            self.ports[portID] = list(values)
 
     def remove_port(self, portID):
         if key in self.ports:
