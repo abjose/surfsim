@@ -68,11 +68,26 @@ class Simulator:
             temp += ['Tags: ' + str(nu.tags)]
             temp += ['Ports: ' + str(nu.ports)]
             data.append(temp)
+        self.print_with_columns(data)
+        print
 
+    def list_edges(self):
+        """ Print edge data. """
+        print 'NETWORK EDGES:'
+        data = []
+        for a,b in self.G.edges():
+            edge = self.G[a][b]
+            temp =  ['Edge ' + str(a) + ' -> ' + str(b)]
+            temp += ['Maps: ' + str(edge['maps'])]
+            data.append(temp)
+        self.print_with_columns(data)
+        print
+
+    def print_with_columns(self, data):
+        """ Print things nicely. """
         w = [max(map(len, col)) for col in zip(*data)]
         for row in data:
-            print "....".join((val.ljust(width) for val, width in zip(row, w)))
-        print
+            print " .. ".join((val.ljust(width) for val, width in zip(row, w)))
 
     def show_graph(self):
         """ Display a graphical representation of the graph. """
@@ -90,7 +105,6 @@ if __name__ == '__main__':
     S.list_nodes()
 
     # TODO: verify one-to-many works
-    # TODO: should make a list_edges function (like list_nodes)? 
     # TODO: any way to add labels nicely without having to pass a dict? how to dicts do it? could have args** or whatever and then take resulting dict (...set...) and append it to tags? 
 
     # increment loop
@@ -110,7 +124,8 @@ if __name__ == '__main__':
         S.step_simulation()
         S.list_nodes()
 
-    S.refresh_tags()
+    #S.refresh_tags()
 
-    print S['test1'].ports
-    print S[0].ports
+    S.list_edges()
+
+
