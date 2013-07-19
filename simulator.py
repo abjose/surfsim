@@ -90,7 +90,7 @@ class Simulator:
         """ Print things nicely. """
         w = [max(map(len, col)) for col in zip(*data)]
         for row in data:
-            print " .. ".join((val.ljust(width) for val, width in zip(row, w)))
+            print "    ".join((val.ljust(width) for val, width in zip(row, w)))
 
     def show_graph(self):
         """ Display a graphical representation of the graph. """
@@ -108,6 +108,7 @@ if __name__ == '__main__':
     S.list_nodes()
 
     # TODO: verify one-to-many works
+    # TODO: verify remove_port works
 
     # increment loop
     S.connect(0, 'output', 1, 'input')
