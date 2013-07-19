@@ -1,7 +1,7 @@
 
 import networkx as nx
 
-#from inc_unit import IncrementUnit
+
 from units import *
 
 
@@ -12,8 +12,8 @@ You should really read about/make tests for this project!!
 class Simulator:
 
     def __init__(self):
-        self.G = nx.DiGraph()
-        self.labels   = {} # store label:uid mapping
+        self.G    = nx.DiGraph()
+        self.tags = {} # store label:uid mapping
         self.curr_uid = 0
 
     #def __setitem__(self, key, value):
@@ -21,15 +21,10 @@ class Simulator:
         # TODO: handle improper keys with keyerror exceptions and stuff
         # TODO: allow to use uid instead of label too?
 
-    def add_unit(self, unit=PrototypeUnit, uid=None, tags=set(), ports={}, 
-                 label=None):
+    def add_unit(self, unit=PrototypeUnit, uid=None, tags=set(), ports={}):
         """ Add a unit to the graph. """
         uid = uid if uid != None else self.get_uid()
         self.G.add_node(uid, unit=unit(self, uid=uid, tags=tags, ports=ports))
-        if label != None:
-            # TODO: should these be stored anywhere else? any way to keep them
-            # solely in the graph?
-            self.labels[label] = uid
 
     def connect(self, pre, pre_portID, post, post_portID):
         """ If connection doesn't exist, make it; otherwise just add map. """
@@ -43,8 +38,16 @@ class Simulator:
 
     def step_simulation(self):
         """ Step the elements of the simulation. """
-        for n in self.G.nodes():
+        for n in self.G:
             self.G.node[n]['unit'].step()
+
+    def refresh_tags(self):
+        """ Build dict of sets of uids from tags. Premature optimization! :( """
+        d = {}
+        for uid in self.G:
+            for t in self.G.node[uid]['unit'].tags:
+                d.setdefault(t,set()).add(uid) # or |= u
+        self.tags = d
 
     def get_uid(self):
         self.curr_uid += 1
@@ -59,12 +62,12 @@ class Simulator:
 
 if __name__ == '__main__':
     S = Simulator()
-    S.add_unit(unit=IncrementUnit)
-    S.add_unit(unit=IncrementUnit)
-    S.add_unit(unit=IncrementUnit)
-    S.add_unit(unit=IncrementUnit)
-    S.add_unit(unit=IncrementUnit)
-    S.add_unit(unit=SumUnit)
+    S.add_unit(unit=IncrementUnit, tags=set(['test1', 'g1']))
+    S.add_unit(unit=IncrementUnit, tags=set(['test2', 'g1']))
+    S.add_unit(unit=IncrementUnit, tags=set(['test3', 'g1']))
+    S.add_unit(unit=IncrementUnit, tags=set(['test4', 'g1']))
+    S.add_unit(unit=IncrementUnit, tags=set(['test5', 'g1']))
+    S.add_unit(unit=SumUnit, tags=set(['adder', 'g1']))
     S.list_nodes()
 
     # verify one-to-many works
@@ -84,11 +87,10 @@ if __name__ == '__main__':
     S.connect(2, 'output', 5, 'input')
     S.connect(3, 'output', 5, 'input')
     S.connect(4, 'output', 5, 'input')
-
-    print S.G.edges()
     
     for i in range(5):
         S.step_simulation()
         S.list_nodes()
 
+    S.refresh_tags()
 
