@@ -23,9 +23,11 @@ class Simulator:
             raise KeyError("non-unique identifier in __getitem__")
         return self.G.node[uid.pop()]['unit']
 
-    def add_unit(self, unit=PrototypeUnit, uid=None, tags=set(), ports={}):
-        """ Add a unit to the graph. """
+    def add_unit(self, unit=PrototypeUnit, uid=None, 
+                 tags=set(), ports={}, **kwargs):
+        """ Add a unit to the graph. Extra labeld args are treated as tags. """
         uid = uid if uid != None else self.get_uid()
+        tags = set(tags) | set(kwargs.values())
         self.G.add_node(uid, unit=unit(self, uid=uid, tags=tags, ports=ports))
 
     def connect(self, pre, pre_portID, post, post_portID):
@@ -73,6 +75,7 @@ class Simulator:
 
     def list_edges(self):
         """ Print edge data. """
+        # TODO: sort edges?
         print 'NETWORK EDGES:'
         data = []
         for a,b in self.G.edges():
@@ -96,16 +99,15 @@ class Simulator:
 
 if __name__ == '__main__':
     S = Simulator()
-    S.add_unit(unit=IncrementUnit, tags=set(['test1', 'g1']))
-    S.add_unit(unit=IncrementUnit, tags=set(['test2', 'g1']))
-    S.add_unit(unit=IncrementUnit, tags=set(['test3', 'g1']))
+    S.add_unit(unit=IncrementUnit, label1='test1', group='g1')
+    S.add_unit(unit=IncrementUnit, tags=['test2', 'g1'])
+    S.add_unit(unit=IncrementUnit, tags=['test3', 'g1'])
     S.add_unit(unit=IncrementUnit, tags=set(['test4', 'g1']))
     S.add_unit(unit=IncrementUnit, tags=set(['test5', 'g1']))
     S.add_unit(unit=SumUnit, tags=set(['adder', 'g1']))
     S.list_nodes()
 
     # TODO: verify one-to-many works
-    # TODO: any way to add labels nicely without having to pass a dict? how to dicts do it? could have args** or whatever and then take resulting dict (...set...) and append it to tags? 
 
     # increment loop
     S.connect(0, 'output', 1, 'input')
