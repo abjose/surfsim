@@ -1,6 +1,6 @@
 
 import networkx as nx
-
+import matplotlib.pyplot as plt
 
 from units import *
 
@@ -59,11 +59,25 @@ class Simulator:
         return self.curr_uid-1
 
     def list_nodes(self):
-        print '\nNETWORK NODES:'
+        """ Print node data. """
+        print 'NETWORK NODES:'
+        data = []
         for n in self.G:
             nu = self.G.node[n]['unit']
-            print 'Node ' + str(n) + '\tPorts:', nu.ports
+            temp =  ['Node ' + str(n)]
+            temp += ['Tags: ' + str(nu.tags)]
+            temp += ['Ports: ' + str(nu.ports)]
+            data.append(temp)
+
+        w = [max(map(len, col)) for col in zip(*data)]
+        for row in data:
+            print "....".join((val.ljust(width) for val, width in zip(row, w)))
         print
+
+    def show_graph(self):
+        """ Display a graphical representation of the graph. """
+        nx.draw(S.G)
+        plt.show()
 
 if __name__ == '__main__':
     S = Simulator()
@@ -75,9 +89,9 @@ if __name__ == '__main__':
     S.add_unit(unit=SumUnit, tags=set(['adder', 'g1']))
     S.list_nodes()
 
-    # verify one-to-many works
-    # verify many-to-one works
-    # should make a list_connections function (like list_nodes)
+    # TODO: verify one-to-many works
+    # TODO: should make a list_edges function (like list_nodes)? 
+    # TODO: any way to add labels nicely without having to pass a dict? how to dicts do it? could have args** or whatever and then take resulting dict (...set...) and append it to tags? 
 
     # increment loop
     S.connect(0, 'output', 1, 'input')
