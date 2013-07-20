@@ -12,16 +12,15 @@ class PrototypeUnit(Unit):
     def __init__(self, simulator, uid=None):
         super(PrototypeUnit, self).__init__(simulator, uid=uid, 
                                             tags=tags, ports=ports)
-        self.set_port('input', 0)
-        self.set_port('output', 0)
 
     def operation(self):
-        val = self.ports['input'][0]
-        self.set_port('output', val+1)
+        pass
 
 """
 To add:
-
+- stuff to allow storing/running operation code from command-line
+- stuff to allow saving created units...as python files??? technically just a simple as writing to a text file??? Might want to use type(...) built-in
+http://www.pythonexamples.org/2011/01/12/how-to-dynamically-create-a-class-at-runtime-in-python/
 
 """
 
