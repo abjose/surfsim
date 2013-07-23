@@ -1,9 +1,6 @@
 
-#import networkx as nx
-#import matplotlib.pyplot as plt
-
 from unitgraph import UnitGraph
-#from units import *
+
 
 class Simulator(UnitGraph):
 

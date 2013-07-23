@@ -2,8 +2,9 @@
 import networkx as nx
 
 
-class Assembler:
+class Assembler(UnitGraph):
     
     def __init__(self):
-        self.G = nx.DiGraph()
+        super(Assembler, self).__init__()
+
 
