@@ -41,6 +41,16 @@ class UnitGraph(object):
         else:
             self.G.edge[pre][post]['maps'][post_portID].append(pre_portID)
 
+    def copy_graph(self):
+        """ Make a deep copy of the UnitGraph. """
+        # make networkx copy to get edge data...then make new unit objects?
+        C = self.G.copy()
+        print C.node[0]['unit'].ports
+        print self.G.node[0]['unit'].ports
+        #for uid in self.G:
+        #    nu = self.G.node[n]['unit']
+        #    classname = nu.__class__.__name__
+
     def refresh_tags(self):
         """ Build dict of sets of uids from tags. Premature optimization! :( """
         d = {}

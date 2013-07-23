@@ -44,10 +44,11 @@ if __name__ == '__main__':
         S.step_simulation()
         S.list_nodes()
 
-    S.show_graph()
+    #S.show_graph()
 
     S.list_edges()
 
     #S.refresh_tags()
     #print S[1].__class__.__name__
 
+    S.copy_graph()
