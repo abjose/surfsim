@@ -127,8 +127,8 @@ if __name__ == '__main__':
         S.step_simulation()
         S.list_nodes()
 
-    #S.refresh_tags()
-
     S.list_edges()
 
+    #S.refresh_tags()
+    #print S[1].__class__.__name__
 
