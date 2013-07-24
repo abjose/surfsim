@@ -20,10 +20,13 @@ class Unit(object):
     def describe(self):
         pass
 
-    def set_port(self, portID, *values):
+    def set_port(self, portID, value):
         """ Update specified output port's value; add port if nonexistent. """
-        #if portID not in self.ports: 
-        self.ports[portID] = list(values)
+        # Bad form!
+        try:
+            self.ports[portID] = list(value)
+        except TypeError:
+            self.ports[portID] = value
 
     def remove_port(self, portID):
         if key in self.ports:
@@ -43,6 +46,8 @@ class Unit(object):
                 if postpid in maps:
                     pre = self.S.G.node[p]['unit']
                     data += [pre.ports[prepid] for prepid in maps[postpid]]
+            self.set_port(postpid, data)
+            
 
 
 if __name__=="__main__":
