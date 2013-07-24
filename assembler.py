@@ -5,12 +5,13 @@ from units import *
 
 class Assembler(UnitGraph):
     
-    def __init__(self, simulator, tags=set()):
+    def __init__(self, simulator, tags=set(), ports={}):
         super(Assembler, self).__init__()
-        self.S    = simulator # simulator to insert instances in to
-        self.tags = tags
+        self.S     = simulator # simulator to insert instances in to
+        self.tags  = tags
+        self.ports = ports
 
-    def make_instance(self, extra_tags=set()):
+    def make_instance(self, tags=set(), ports={}):
         """ Instantiate an instance of G in S. """
         # abstract:instance uid mapping
         uid_map = {} 
@@ -19,8 +20,8 @@ class Assembler(UnitGraph):
             uid_map[uid] = self.S.curr_uid # get the current uid
             u = self.G.node[uid]['unit']
             self.S.add_unit(unit = eval(u.__class__.__name__),
-                            tags = u.tags | self.tags | extra_tags, 
-                            ports= u.ports)
+                            tags = u.tags | self.tags | tags, 
+                            ports= u.ports.update([self.ports, ports])
         # add edges
         for a,b in self.G.edges():
             pre,post = uid_map[a], uid_map[b]
