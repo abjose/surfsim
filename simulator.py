@@ -1,7 +1,6 @@
 
 from unitgraph import UnitGraph
 
-
 class Simulator(UnitGraph):
 
     def __init__(self):
@@ -14,6 +13,7 @@ class Simulator(UnitGraph):
 
 if __name__ == '__main__':
     from units import *
+    from assembler import Assembler
 
     S = Simulator()
     S.add_unit(unit=IncrementUnit, label1='test1', group='g1')
@@ -51,3 +51,16 @@ if __name__ == '__main__':
     #S.refresh_tags()
     #print S[1].__class__.__name__
 
+
+    A = Assembler(S, tags={'test_group'})
+    
+    # after testing, take subgraph...also show adding manually
+    A.G = S.G.copy()
+    #A.show_graph()
+
+    A.make_instance()
+    A.make_instance()
+    A.make_instance()
+    A.make_instance()
+
+    S.show_graph()

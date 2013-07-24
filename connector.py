@@ -1,7 +1,5 @@
 
 
-
-
 class Connector:
 
     # TODO: have a way of verifying that the populations are what the connector is expecting?
@@ -9,7 +7,6 @@ class Connector:
     def __init__(self, simulator):
         self.S = simulator
         self.connections = []
-
 
     def add_connection(self, pre_tags, pre_portID, post_tags, post_portID):
         # note that pre and post are not uids but sets of tags...

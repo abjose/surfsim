@@ -1,5 +1,6 @@
 
-import networkx as nx
+from unitgraph import UnitGraph
+from units import *
 
 
 class Assembler(UnitGraph):
@@ -17,11 +18,11 @@ class Assembler(UnitGraph):
         for uid in self.G:
             uid_map[uid] = self.S.curr_uid # get the current uid
             u = self.G.node[uid]['unit']
-            self.S.add_unit(unit = u.__class__.__name__,
+            self.S.add_unit(unit = eval(u.__class__.__name__),
                             tags = u.tags | self.tags | extra_tags, 
                             ports= u.ports)
         # add edges
         for a,b in self.G.edges():
             pre,post = uid_map[a], uid_map[b]
             edge_map = self.G[a][b]['maps']
-            self.S.connect_with_map(edge_map)
+            self.S.connect_with_map(pre, post, edge_map)
