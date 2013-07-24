@@ -18,14 +18,14 @@ class Connector:
         pre_pop  = self.S.filter_units(pre_pop_tags)
         post_pop = self.S.filter_units(post_pop_tags)
         # iterate through connections
-        for pre_tags, post_tags, pre_portID, post_portID in connections:
+        for pre_tags, post_tags, pre_portID, post_portID in self.connections:
             # get acual node uids
             pre  = self.S.filter_units(pre_tags, subset=pre_pop)
             post = self.S.filter_units(post_tags, subset=post_pop)
             # assert unique identification
             assert len(pre) == 1 and len(post) == 1
             # if so, go ahead and connect
-            self.S.connect(pre, pre_portID, post, post_portID)
+            self.S.connect(pre.pop(), pre_portID, post.pop(), post_portID)
         
 
 

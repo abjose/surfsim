@@ -14,6 +14,7 @@ class Simulator(UnitGraph):
 if __name__ == '__main__':
     from units import *
     from assembler import Assembler
+    from connector import Connector
 
     S = Simulator()
     S.add_unit(unit=IncrementUnit, label1='test1', group='g1')
@@ -34,6 +35,8 @@ if __name__ == '__main__':
     S.connect(3, 'output', 4, 'input')
     S.connect(4, 'output', 0, 'input')
     # sum things
+    # TODO: allow passing lists to connect, so this could be
+    # S.connect([0,1,2,3,4], 'output', 5, 'input') or something
     S.connect(0, 'output', 5, 'input')
     S.connect(1, 'output', 5, 'input')
     S.connect(2, 'output', 5, 'input')
@@ -58,9 +61,24 @@ if __name__ == '__main__':
     A.G = S.G.copy()
     #A.show_graph()
 
-    A.make_instance()
-    A.make_instance()
-    A.make_instance()
-    A.make_instance()
+    A.make_instance({'group_a'})
+    A.make_instance({'group_b'})
+    A.make_instance({'group_c'})
+    A.make_instance({'group_d'})
 
+    S.list_nodes()
+
+    #S.show_graph()
+
+
+    C = Connector(S)
+
+    C.add_connection({'test1'}, 'output', {'test1'}, 'input')
+    C.add_connection({'test3'}, 'output', {'test3'}, 'input')
+    C.add_connection({'test5'}, 'output', {'test5'}, 'input')
+
+    C.make_connection({'test_group', 'group_a'}, 
+                      {'test_group', 'group_b'})
+
+    S.list_edges()
     S.show_graph()

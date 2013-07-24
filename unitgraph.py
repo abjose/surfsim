@@ -86,6 +86,7 @@ class UnitGraph(object):
     def list_edges(self):
         """ Print edge data. """
         # TODO: sort edges?
+        # TODO: also print tags, but only print unshared tags?
         print 'NETWORK EDGES:'
         data = []
         for a,b in self.G.edges():
