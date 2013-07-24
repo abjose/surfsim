@@ -3,6 +3,8 @@
 
 
 class Connector:
+
+    # TODO: have a way of verifying that the populations are what the connector is expecting?
     
     def __init__(self, simulator):
         self.S = simulator
@@ -29,11 +31,5 @@ class Connector:
             self.S.connect(pre, pre_portID, post, post_portID)
         
 
-"""
--so need to store connection set between two collections of units
--should have a way of verifying that the two collections are what the connector is expecting?
--guess this also needs an 'add connection' thing to describe pre,pre_port, post,post_port stuff...where pre/post are sufficient sets of tags to describe the unit within the population that will be connected
--then have an make_connection things that is passed two sets of tags that should uniquely define the populations to connect
--then basically just call connect a few times...
-"""
+
 
