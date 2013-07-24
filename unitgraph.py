@@ -41,7 +41,7 @@ class UnitGraph(object):
         else:
             self.G.edge[pre][post]['maps'][post_portID].append(pre_portID)
     
-    def filter_nodes(self, tags):
+    def filter_units(self, tags):
         """ Return a SET of uids matching all specified tags. """ 
         # Can do math with resultant sets!
         # also allow filtering on...uids, port names?
