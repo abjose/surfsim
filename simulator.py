@@ -51,4 +51,3 @@ if __name__ == '__main__':
     #S.refresh_tags()
     #print S[1].__class__.__name__
 
-    S.copy_graph()
