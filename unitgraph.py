@@ -40,12 +40,14 @@ class UnitGraph(object):
             self.G.edge[pre][post]['maps'][post_portID] = [pre_portID]
         else:
             self.G.edge[pre][post]['maps'][post_portID].append(pre_portID)
-
-    def copy_graph(self):
-        """ Make a deep copy of the UnitGraph. """
-        # Are you sure this is enough of a copy?!
-        return self.G.copy()
-
+    
+    def filter_nodes(self, tags):
+        """ Return a SET of uids matching all specified tags. """ 
+        # Can do math with resultant sets!
+        # also allow filtering on...uids, port names?
+        # could also use self.tags, just union all relevant sets
+        return {n for n in self.G if tags <= self.G.node[n]['unit'].tags}
+        
     def refresh_tags(self):
         """ Build dict of sets of uids from tags. Premature optimization! :( """
         d = {}
