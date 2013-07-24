@@ -31,8 +31,10 @@ class UnitGraph(object):
         tags = set(tags) | set(kwargs.values())
         self.G.add_node(uid, unit=unit(self, uid=uid, tags=tags, ports=ports))
 
-    def connect(self, pre, pre_portID, post, post_portID):
+    def connect(self, pre, pre_portID, post, post_portID, edge_map=None):
         """ If connection doesn't exist, make it; otherwise just add map. """
+        # TODO: consider changing this s.t. connect_with_map not needed
+        # could have args be (pre, post, ports=(preID, postID), edge_map=None)
         # verify both nodes exist...
         assert pre in self.G and post in self.G
         if post not in self.G.node[pre]:
@@ -40,6 +42,9 @@ class UnitGraph(object):
             self.G.edge[pre][post]['maps'][post_portID] = [pre_portID]
         else:
             self.G.edge[pre][post]['maps'][post_portID].append(pre_portID)
+
+    def connect_with_map(self, pre, post, edge_map):
+        self.G.add_edge(pre, post, maps=edge_map)
     
     def filter_units(self, tags):
         """ Return a SET of uids matching all specified tags. """ 
