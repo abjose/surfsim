@@ -26,7 +26,7 @@ class Unit(object):
         try:
             self.ports[portID] = list(value)
         except TypeError:
-            self.ports[portID] = value
+            self.ports[portID] = [value]
 
     def remove_port(self, portID):
         if key in self.ports:
@@ -46,7 +46,8 @@ class Unit(object):
                 if postpid in maps:
                     pre = self.S.G.node[p]['unit']
                     data += [pre.ports[prepid] for prepid in maps[postpid]]
-            self.set_port(postpid, data)
+            # flatten
+            self.set_port(postpid, [d for s in data for d in s])
             
 
 

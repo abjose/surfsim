@@ -47,6 +47,9 @@ class UnitGraph(object):
         C = self.G.copy()
         print C.node[0]['unit'].ports
         print self.G.node[0]['unit'].ports
+        print self.G.node[0]['unit'].set_port('input', 1)
+        print C.node[0]['unit'].ports
+        print self.G.node[0]['unit'].ports
         #for uid in self.G:
         #    nu = self.G.node[n]['unit']
         #    classname = nu.__class__.__name__
