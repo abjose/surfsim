@@ -31,10 +31,11 @@ class UnitGraph(object):
         tags = set(tags) | set(kwargs.values())
         self.G.add_node(uid, unit=unit(self, uid=uid, tags=tags, ports=ports))
 
-    def connect(self, pre, pre_portID, post, post_portID, edge_map=None):
+    def connect(self, pre, pre_portID, post, post_portID):
         """ If connection doesn't exist, make it; otherwise just add map. """
         # TODO: consider changing this s.t. connect_with_map not needed
         # could have args be (pre, post, ports=(preID, postID), edge_map=None)
+        # if do this should also modify add_connection in connector
         # verify both nodes exist...
         assert pre in self.G and post in self.G
         if post not in self.G.node[pre]:
@@ -46,12 +47,13 @@ class UnitGraph(object):
     def connect_with_map(self, pre, post, edge_map):
         self.G.add_edge(pre, post, maps=edge_map)
     
-    def filter_units(self, tags):
+    def filter_units(self, tags, subset=None):
         """ Return a SET of uids matching all specified tags. """ 
         # Can do math with resultant sets!
         # also allow filtering on...uids, port names?
         # could also use self.tags, just union all relevant sets
-        return {n for n in self.G if tags <= self.G.node[n]['unit'].tags}
+        s = subset if subset != None else self.G
+        return {n for n in s if tags <= self.G.node[n]['unit'].tags}
         
     def refresh_tags(self):
         """ Build dict of sets of uids from tags. Premature optimization! :( """
