@@ -3,6 +3,7 @@
 class Connector:
 
     # TODO: have a way of verifying that the populations are what the connector is expecting?
+    # TODO: add something to add extra attributes (like weight) to an edges
     
     def __init__(self, simulator):
         self.S = simulator
@@ -12,11 +13,14 @@ class Connector:
         # note that pre and post are not uids but sets of tags...
         self.connections.append((pre_tags, post_tags, pre_portID, post_portID))
 
-    def make_connection(self, pre_pop_tags, post_pop_tags):
+    def make_connection(self, pre_pop_tags, post_pop_tags, 
+                        pre_pop=None, post_pop=None):
         """ Instantiate connections between populations described by 
         pre_tags and post_tags """
-        pre_pop  = self.S.filter_units(pre_pop_tags)
-        post_pop = self.S.filter_units(post_pop_tags)
+        # TODO: consider changing args so tags are optional?
+        if pre_pop == None and post_pop == None:
+            pre_pop  = self.S.filter_units(pre_pop_tags)
+            post_pop = self.S.filter_units(post_pop_tags)
         # iterate through connections
         for pre_tags, post_tags, pre_portID, post_portID in self.connections:
             # get acual node uids
