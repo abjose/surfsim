@@ -14,6 +14,7 @@ class AssemblyRule:
     def update(self):
         """ Update values with which Assembler objects will be initialized """
         # raise nonimplemented error
+        # TODO: consider using lazyarrays
         pass
 
     def make_population(self, pop_name, N):
