@@ -10,58 +10,28 @@ class ConnectionRule:
     def update(self):
         """ Update values with which connections objects will be initialized """
         pass
-    def should_connect(self, i, j):
-        """ Return true if elements should be connected, else false. """
+    def should_connect(self, pre_group, post_group):
+        """ Return True if groups should be connected, else False. """
         # TODO: consider using lazyarrays
-        # should you pass unit objects or indices? note that they're not
-        # actually units but collections of units...
-        # alternately this could return a weight (or a dict) - just 0 if
-        # shouldn't connect or something
-        pass
+        # TODO: after modifying connector so can add parameters to each edge
+        #       should somehow have this so it can modify parameters for 
+        #       each time connector connects things?
+        raise NotImplementedError()
 
-    def make_connections(self, pre_pop_tags, post_pop_tags, 
-                         pre_pop=None, post_pop=None):
+    def make_connections(self, pre_pop, pre_group_tag, 
+                         post_pop, post_group_tag):
+        # NOTE: as stated in get_groups, must have 'tag', 'tag*' pattern
+        for pre in self.get_pop(pre_group_tag, pop=pre_pop):
+            for post in self.get_pop(post_group_tag, pop=post_pop):
+                if self.should_connect(pre, post)
+                    self.C.make_connection(pre, post)
 
-        
-        
-
-        # should pre and post be sets of uids or sets of tags?
-        # can do lots of interesting things with sets of uids using chains
-        # of filter commands...
-        # why not both?
-        # if change this, should probably change connector too...
-
-
-        # so need to filter things with tags (unless pops given)
-        # then need to...append numbers to pop tags? so pop tags have to be
-        # given?
-
-
-        # use iterator instead?
-        # should you force users to only connect things as they are made?
-        # so couldn't connect pre-existing stuff...
-        # this would sorta suck
-        # ALSO, can't just increment and append to tags. What if an element
-        # of the population was deleted? What if the user selects a non-
-        # continuous subset of the population?
-
-        # Then I guess you need the population to just adhere to the rule
-        # "has tag# in tags, and objects with same # in tag# are part of the
-        # same group". Then can segment easily that way.
-        keep_going = True
-        while keep_going:
-            pass
-            # set keep_going
-
-
-
-    def get_pop(self, tag, subset=None):
-        # allow ranges? so only specific sub-population selected?
+    def get_groups(self, tag, pop=None):
         # Note: elements must have both 'tag' and 'tag*' as tags, 
         # where 'tag*' places them in a group
 
         # get all candidates
-        population = self.S.filter(tag)
+        population = pop.copy() if pop!=None else self.S.filter(tag)
         # partition candidates
         groups = []
         while population: # continue until empty?
