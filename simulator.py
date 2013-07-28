@@ -84,8 +84,9 @@ if __name__ == '__main__':
     C.add_connection({'test5'}, 'output', {'test5'}, 'input')
 
     # Connect group_a and group_b in the way specified
-    C.make_connection({'test_group', 'group_a'}, 
-                      {'test_group', 'group_b'})
+    self.S.filter_units(pre_pop_tags)
+    C.make_connection(self.S.filter_units({'test_group', 'group_a'}), 
+                      self.S.filter_units({'test_group', 'group_b'}))
 
     S.show_graph()
 
