@@ -31,15 +31,17 @@ class UnitGraph(object):
         tags = set(tags) | set(kwargs.values())
         self.G.add_node(uid, unit=unit(self, uid=uid, tags=tags, ports=ports))
 
-    def connect(self, pre, pre_portID, post, post_portID):
+    def connect(self, pre, pre_portID, post, post_portID, **edgeparams):
         """ If connection doesn't exist, make it; otherwise just add map. """
         # TODO: consider changing this s.t. connect_with_map not needed
         # could have args be (pre, post, ports=(preID, postID), edge_map=None)
         # if do this should also modify add_connection in connector
         # verify both nodes exist...
+        # TODO: I THINK edgeparams FIXES THIS, SHOULD VERIFY...can remove maps?
+        # (and connect_with_map obviously)
         assert pre in self.G and post in self.G
         if post not in self.G.node[pre]:
-            self.G.add_edge(pre, post, maps=dict())
+            self.G.add_edge(pre, post, maps=dict(), **edgeparams) # works?
             self.G.edge[pre][post]['maps'][post_portID] = [pre_portID]
         else:
             self.G.edge[pre][post]['maps'][post_portID].append(pre_portID)
@@ -51,7 +53,8 @@ class UnitGraph(object):
         """ Return a SET of uids matching all specified tags. """ 
         # Can do math with resultant sets!
         # also allow filtering on...uids, port names?
-        # could also use self.tags, just union all relevant sets
+        # could also use self.tags if refreshed, just union all relevant sets
+        # TODO: allow wildcards? Easyish with self.tags... regex?
         s = subset if subset != None else self.G
         return {n for n in s if tags <= self.G.node[n]['unit'].tags}
         
