@@ -27,3 +27,5 @@ class Assembler(UnitGraph):
             pre,post = uid_map[a], uid_map[b]
             edge_map = self.G[a][b]['maps']
             self.S.connect_with_map(pre, post, edge_map)
+
+         # SHOULD MAKE THIS AN ITERATOR INSTEAD?
