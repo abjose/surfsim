@@ -1,7 +1,5 @@
 
 
-# also consider using plugins?
-#__all__ = ["custom_unit", "inc_unit", "sum_unit"]
 
 import os, sys
 
@@ -12,4 +10,3 @@ for py in [f[:-3] for f in os.listdir(path) if f.endswith('.py') and f != '__ini
     classes = [getattr(mod, x) for x in dir(mod) if isinstance(getattr(mod, x), type)]
     for cls in classes:
         setattr(sys.modules[__name__], cls.__name__, cls)
-
