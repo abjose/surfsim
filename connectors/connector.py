@@ -1,6 +1,6 @@
 
 
-class Connector:
+class Connector(object):
 
     # TODO: have a way of verifying that the populations are what the connector is expecting?
     # TODO: add something to add extra attributes (like weight) to an edges

@@ -13,9 +13,12 @@ class Simulator(UnitGraph):
 
 if __name__ == '__main__':
     from units import *
-    from assembler import Assembler
-    from connector import Connector
-    
+    from assemblers import *
+    #from connectors.connector import Connector
+    from connectors import *
+    #from assembler import Assembler
+    #from connector import Connector
+
     # TODO: verify one-to-many works
     # TODO: verify remove_port works
 
@@ -56,7 +59,7 @@ if __name__ == '__main__':
         S.step_simulation()
         S.list_nodes()
 
-    S.show_graph()
+    #S.show_graph()
 
     #S.refresh_tags()
     #print S[1].__class__.__name__
@@ -73,7 +76,7 @@ if __name__ == '__main__':
     A.make_instance(tags={'group_c'})
     A.make_instance(tags={'group_d'})
 
-    S.show_graph()
+    #S.show_graph()
 
     # Make a Connecor instance
     C = Connector(S)
@@ -84,9 +87,8 @@ if __name__ == '__main__':
     C.add_connection({'test5'}, 'output', {'test5'}, 'input')
 
     # Connect group_a and group_b in the way specified
-    self.S.filter_units(pre_pop_tags)
-    C.make_connection(self.S.filter_units({'test_group', 'group_a'}), 
-                      self.S.filter_units({'test_group', 'group_b'}))
+    C.make_connection(S.filter_units({'test_group', 'group_a'}), 
+                      S.filter_units({'test_group', 'group_b'}))
 
     S.show_graph()
 
