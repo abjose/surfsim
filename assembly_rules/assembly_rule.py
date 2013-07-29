@@ -13,7 +13,7 @@ class AssemblyRule:
 
     def update(self):
         """ Update values with which Assembler objects will be initialized """
-        # raise nonimplemented error
+        raise NotImplementedError()
         # TODO: consider using lazyarrays
         pass
 
