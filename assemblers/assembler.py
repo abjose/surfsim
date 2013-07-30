@@ -2,6 +2,7 @@
 from unitgraph import UnitGraph
 from units import *
 
+
 class Assembler(UnitGraph):
     
     def __init__(self, simulator, tags=set(), ports={}):

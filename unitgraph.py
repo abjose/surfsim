@@ -14,12 +14,12 @@ class UnitGraph(object):
 
     def __init__(self):
         self.G    = nx.DiGraph()
-        self.tags = {} # store label:uid mapping
+        self.tagref = {} # store label:uid mapping
         self.curr_uid = 0
 
     #def __setitem__(self, key, value):
     def __getitem__(self, key):
-        uid = self.tags[key].copy()
+        uid = self.tagref[key].copy()
         if len(uid) != 1:
             raise KeyError("non-unique identifier in __getitem__")
         return self.G.node[uid.pop()]['unit']
@@ -53,12 +53,12 @@ class UnitGraph(object):
         """ Return a SET of uids matching all specified tags. """ 
         # Can do math with resultant sets!
         # also allow filtering on...uids, port names?
-        # could also use self.tags if refreshed, just union all relevant sets
-        # TODO: allow wildcards? Easyish with self.tags... regex?
+        # could also use self.tagref if refreshed, just union all relevant sets
+        # TODO: allow wildcards? Easyish with self.tagref... regex?
         s = subset if subset != None else self.G
         return {n for n in s if tags <= self.G.node[n]['unit'].tags}
         
-    def refresh_tags(self):
+    def refresh_tagref(self):
         """ Build dict of sets of uids from tags. Premature optimization! :( """
         d = {}
         for uid in self.G:
@@ -67,7 +67,7 @@ class UnitGraph(object):
             # now build other tags
             for t in self.G.node[uid]['unit'].tags:
                 d.setdefault(t,set()).add(uid) # or |= u
-        self.tags = d
+        self.tagref = d
 
     def get_uid(self):
         self.curr_uid += 1
