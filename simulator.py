@@ -21,6 +21,7 @@ if __name__ == '__main__':
 
     # TODO: verify one-to-many works
     # TODO: verify remove_port works
+    # TODO: test assembly/connector rules
 
     # instantiate simulator
     S = Simulator()

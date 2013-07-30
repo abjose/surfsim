@@ -2,7 +2,6 @@
 from unit import Unit
 
 
-
 class IncrementUnit(Unit):
     
     def __init__(self, simulator, uid=None, tags=set(), ports={}):
