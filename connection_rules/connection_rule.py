@@ -2,7 +2,7 @@
 
 class ConnectionRule(object):
 
-    def __init__(self, simulator, connector, ):
+    def __init__(self, simulator, connector):
         self.S = simulator
         self.C = connector
         #self.attrs = {}
@@ -22,8 +22,8 @@ class ConnectionRule(object):
     def make_connections(self, pre_pop, pre_group_tag, 
                          post_pop, post_group_tag):
         # NOTE: as stated in get_groups, must have 'tag', 'tag*' pattern
-        for pre in self.get_pop(pre_group_tag, pop=pre_pop):
-            for post in self.get_pop(post_group_tag, pop=post_pop):
+        for pre in self.get_groups(pre_group_tag, pop=pre_pop):
+            for post in self.get_groups(post_group_tag, pop=post_pop):
                 if self.should_connect(pre, post)
                     self.C.make_connection(pre, post)
 
@@ -44,7 +44,7 @@ class ConnectionRule(object):
             matches = [t for t in ntags if tag in t[:len(tag)] and t != tag]
             # verify unique match
             if len(matches) > 1:
-                raise Exception('Too many matches in get_pop')
+                raise Exception('Too many matches in get_groups')
             # if so, get all units in same group
             group = {n} | self.S.filter_units(matches[0], subset=population)
             # remove them all from population and append to groups
