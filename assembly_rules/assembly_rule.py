@@ -13,6 +13,8 @@ class AssemblyRule(object):
         """ Update values with which Assembler objects will be initialized """
         raise NotImplementedError()
         # TODO: consider using lazyarrays
+        # like seriously, I think you can like chain them together
+        # and then you wouldn't have to implement as many rules
         pass
 
     def make_population(self, pop_name, N):

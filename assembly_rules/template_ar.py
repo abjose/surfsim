@@ -7,7 +7,7 @@ class TemplateAR(AssemblyRule):
         super(TemplateAR, self).__init__(simulator, assembler)
 
     def step(self):
-        """ Update values with which Assembler objects will be initialized """
+        """ Update values with which Assembler objects will be initialized. """
         raise NotImplementedError()
         # TODO: consider using lazyarrays
         pass
