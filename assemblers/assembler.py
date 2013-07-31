@@ -8,8 +8,8 @@ class Assembler(UnitGraph):
     def __init__(self, simulator, tags=set(), ports={}):
         super(Assembler, self).__init__()
         self.S     = simulator # simulator to insert instances in to
-        self.tags  = tags
-        self.ports = ports
+        self.tags  = tags.copy()
+        self.ports = ports.copy()
 
     def make_instance(self, tags=set(), ports={}):
         """ Instantiate an instance of G in S. """
