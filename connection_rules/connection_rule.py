@@ -1,6 +1,6 @@
 
 
-class ConnectionRule:
+class ConnectionRule(object):
 
     def __init__(self, simulator, connector, ):
         self.S = simulator
@@ -10,6 +10,7 @@ class ConnectionRule:
     def update(self):
         """ Update values with which connections objects will be initialized """
         pass
+
     def should_connect(self, pre_group, post_group):
         """ Return True if groups should be connected, else False. """
         # TODO: consider using lazyarrays
