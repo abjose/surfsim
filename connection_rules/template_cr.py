@@ -2,7 +2,7 @@
 
 class TemplateCR(ConnectionRule):
 
-    def __init__(self, simulator, connector, ):
+    def __init__(self, simulator, connector):
         super(TemplateCR, self).__init__(simulator, connector)
 
     def update(self):
