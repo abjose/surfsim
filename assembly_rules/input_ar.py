@@ -2,38 +2,27 @@
 import cv2   as cv
 import numpy as np  # perhaps this can be imported in base class?
 
-from assembly_rules import AssemblyRule
-from assemblers     import InputAssembler
+from assembly_rule import AssemblyRule
+from assemblers    import InputAssembler
 
 
-class InputAR(AssemblyRule):
+class InputAR(GridAR):
     
-    def __init__(self, simulator, filepath):
-        # know assembler will be wrapping an InputUnit...
-        # need to make 'InputAssembler' or something? or just instantiate
-        # with Unit?...
-        assembler = InputAssembler(simulator)
-        super(InputAR, self).__init__(simulator, assembler)
-        self.r, self.c = 0,0
-        self.input  = None
+    def __init__(self, sim, filepath):        
+        # init input
         self.source = cv.VideoCapture(filepath)
         if not self.source.isOpened():
-            raise Exception("Source wouldn't open in InputAR!")
+            raise Exception("Source wouldn't open in InputAR.")
         flag, self.input = self.source.read()
-        self.w, self.h = np.size(self.input, 1), np.size(self.input, 0)
+        self.h, self.w = np.size(self.input, 0), np.size(self.input, 1)
+        # init assembler
+        # should be able to just use a Unit?
+        assembler = InputAssembler(simulator)
+        # init superclass
+        super(InputAR, self).__init__(sim, assembler, xl=self.h, yl=self.w)
+        self.r, self.c = 0,0
         
-    def update_init_vals(self):
-        # Want to increment over size of source
-        # could just use a grid assembly rule...
-        # should totally use lazyarrays
-        self.ports[pos] = (self.x, self.y)
-        self.r += 1
-        if self.r >= self.h:
-            if self.c >= self.w:
-                raise Exception("Too many units being instantiated for input!")
-            self.r = 0
-            self.c += 1
-
+        
     def step_input(self):
         # how to step when components are told to step? could give one
         # the job of telling this when it steps? seems sorta hacky
