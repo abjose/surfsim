@@ -17,6 +17,8 @@ class ConvolutionUnit(Unit):
     def operation(self):
         signal = self.ports['input']
         self.set_port('output', np.convolve(signal, self.IRF))
+        # might want to enable "valid only" mode, like:
+        #self.set_port('output', np.convolve(signal, self.IRF, mode='valid'))
 
     def show_irf(self):
         # plot kernel
