@@ -6,6 +6,14 @@ import matplotlib.pyplot as plt
 from unit import Unit
 
 class ConvolutionUnit(Unit):
+    # consider changing name to irf_unit?
+    # could then have another 'base' unit that simply allows graphing
+    # of the unit's response?
+    # would be pretty nice to have some kind of generic 'tune' function
+    # that lets you control the parameters of the function...
+    # ...could just move these things into unit.py?
+    # should instead have one 'linear filter' unit with multiple 
+    # filters to select from, another 'nonlinear filter'...
     
     def __init__(self, simulator, uid=None, tags=set(), ports={}):
         super(ConvolutionUnit, self).__init__(simulator, uid=uid, 
