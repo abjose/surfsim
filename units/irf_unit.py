@@ -26,7 +26,6 @@ class IRFUnit(Unit):
         signal = self.ports['input']
         if signal == []:
             signal = [0]
-        print 'meow', signal
         if self.history != None: # temporal
             # convention: newest sample goes at end of history array
             #self.history = np.append(self.history, signal[-1]) # append last

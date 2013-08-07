@@ -24,18 +24,28 @@ if __name__=='__main__':
     step    = .5
     sin = SinusoidInput(size, spacing, freq, amp, step)
     input_layer = InputAR(S, sin)
-    input_layer.make_population('input_group', 1000) # I guess should make 10000?
+    input_layer.make_population('input_group', 1000) # should make 10000?
     # or make stimulus smaller...
-    # HACK
-    #S.G.remove_nodes_from([0,1])
+
+    plt.ion()
+
+    for i in range(20):
+        plt.cla()
+        plt.imshow(sin.output, cmap='Greys')
+        plt.draw()
+        sin.step()
+        raw_input()
+    plt.cla()
+    plt.ioff()
 
     # initialize BCM assembler
-    bcm = BCMAssembler(S, 0,0,100)
+    bcm = BCMAssembler(S, 0,0,10)
+    bcm.show_graph()
 
     # make a layer of BCMs
     bcm_layer = GridAR(S, bcm, xl=100, yl=100, dx=5, dy=5)
-    bcm_layer.make_population('bcm_group', 1)
-    #S.show_graph()
+    bcm_layer.make_population('bcm_group', 100)
+    S.show_graph()
 
     # make connector for connecting input units and BCM temporal units
     input_bcm_connector = Connector(S)
@@ -72,9 +82,11 @@ if __name__=='__main__':
     # step things, including visualization
     # also superimpose dots for BCM outputs
     
-   
-    for i in range(100):
+    print 'STARTING SIMULATION'
+    for i in range(10):
         S.step_simulation()
+        #S.list_nodes()
+        print 'Completed simulation step', i
 
     """
     plt.ion()

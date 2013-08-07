@@ -17,7 +17,6 @@ class ThreshUnit(Unit):
         theta = self.ports['theta']
         slope = self.ports['slope']
         signal = np.array(self.ports['input'])
-        print signal, theta
         # TODO: HAX
         if theta == []:
             theta = 1
