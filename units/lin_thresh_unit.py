@@ -7,9 +7,10 @@ from unit import Unit
 class ThreshUnit(Unit):
     # should probably do sigmoid
 
-    def __init__(self, simulator, uid=None, tags=set(), ports={}):
-        super(ThreshUnit, self).__init__(simulator, thresh, c, r0, rmax,  
-                                         uid=uid, tags=tags, ports=ports)
+    def __init__(self, simulator, thresh, c, r0, rmax,
+                 uid=None, tags=set(), ports={}):
+        super(ThreshUnit, self).__init__(simulator, uid=uid, 
+                                         tags=tags, ports=ports)
         self.set_port('input', 0)
         self.set_port('output', 0)
 
