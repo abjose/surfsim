@@ -19,10 +19,13 @@ class Assembler(UnitGraph):
         for uid in self.G:
             uid_map[uid] = self.S.curr_uid # get the current uid
             u = self.G.node[uid]['unit']
-            ports = dict(u.ports.items() + self.ports.items() + ports.items())
+            tags  = u.tags | self.tags | tags
+            # take note of priority - things the unit already has should
+            # be highest priority.
+            ports = dict(self.ports.items() + ports.items() + u.ports.items())
             self.S.add_unit(unit  = eval(u.__class__.__name__),
-                            tags  = u.tags | self.tags | tags, 
-                            ports = ports)
+                            tags  = tags.copy(),
+                            ports = ports.copy())
         # add edges
         for a,b in self.G.edges():
             pre,post = uid_map[a], uid_map[b]
