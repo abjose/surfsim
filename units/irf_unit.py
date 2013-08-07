@@ -20,12 +20,23 @@ class IRFUnit(Unit):
         self.set_port('input', 0)
         self.set_port('output', 0)
         self.IRF = None # impulse response function
+        self.history = None # if not None, assume temporal filter
 
     def operation(self):
         signal = self.ports['input']
-        self.set_port('output', np.convolve(signal, self.IRF))
-        # might want to enable "valid only" mode, like:
-        #self.set_port('output', np.convolve(signal, self.IRF, mode='valid'))
+        if signal == []:
+            signal = [0]
+        print 'meow', signal
+        if self.history != None: # temporal
+            # convention: newest sample goes at end of history array
+            #self.history = np.append(self.history, signal[-1]) # append last
+            #HACK! TODO: fix
+            self.history = np.append(self.history, signal[0]) # append first
+            self.set_port('output', np.convolve(self.history, 
+                                                self.IRF, mode='valid'))
+        else:
+            self.set_port('output', np.convolve(signal, self.IRF, mode='valid'))
+
 
     def show_irf(self):
         # plot kernel
@@ -38,8 +49,7 @@ class IRFUnit(Unit):
         plt.show()
 
     def show_convolution(self):
-        plt.plot(np.convolve(self.ports['input'], self.IRF))
-        # might want to enable "valid only" mode (see operation)
+        plt.plot(np.convolve(self.ports['input'], self.IRF, mode='valid'))
         plt.show()
 
 if __name__ == '__main__':
