@@ -24,12 +24,20 @@ class ConnectionRule(object):
         # NOTE: as stated in get_groups, must have 'tag', 'tag*' pattern
         for pre in self.get_groups(pre_group_tag, pop=pre_pop):
             for post in self.get_groups(post_group_tag, pop=post_pop):
-                if self.should_connect(pre, post)
+                if self.should_connect(pre, post):
                     self.C.make_connection(pre, post)
+
+    def make_individual_connections(self, pre_pop, post_pop):
+        # without grouping, just apply connector to every pair
+        # hacky?
+        for pre in pre_pop:
+            for post in post_pop:
+                if self.should_connect({pre}, {post}):
+                    self.C.make_connection({pre}, {post})
 
     def get_groups(self, tag, pop=None):
         # Note: elements must have both 'tag' and 'tag*' as tags, 
-        # where 'tag*' places them in a group
+        # where 'tag*' places them in a specific group
 
         # get all candidates
         population = pop.copy() if pop!=None else self.S.filter(tag)
@@ -39,7 +47,7 @@ class ConnectionRule(object):
             # should check to verify subpop changes each step, else err?
             n = population.pop()
             # get n's tags
-            ntags = self.S.G.nodes[n].tags
+            ntags = self.S.G.node[n]['unit'].tags
             # get all potential tag* matches
             matches = [t for t in ntags if tag in t[:len(tag)] and t != tag]
             # verify unique match

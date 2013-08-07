@@ -1,4 +1,5 @@
 
+from connection_rule import ConnectionRule
 
 class TemplateCR(ConnectionRule):
 

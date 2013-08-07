@@ -1,6 +1,8 @@
 
 import numpy as np
 
+from connection_rule import ConnectionRule
+
 class DistanceCR(ConnectionRule):
 
     def __init__(self, simulator, connector, dist):
@@ -18,10 +20,11 @@ class DistanceCR(ConnectionRule):
         pre_unit  = pre_group.pop()
         post_unit = post_group.pop()
         # get positions -- will raise an exception if no position found?
-        pre_pos  = self.S.G.nodes[pre_unit].ports['pos']
-        post_pos = self.S.G.nodes[post_unit].ports['pos']
+        #print self.S.G.node[pre_unit]['unit'].ports#['pos']
+        pre_pos  = self.S.G.node[pre_unit]['unit'].ports['pos']
+        post_pos = self.S.G.node[post_unit]['unit'].ports['pos']
         # get distance
-        d = np.linalg.norm([pre_post, post_pos])
+        d = np.linalg.norm([pre_pos, post_pos])
         # return sample units :/
         pre_group.add(pre_unit)
         post_group.add(post_unit)

@@ -1,6 +1,8 @@
 
 import numpy as np
 
+from connection_rule import ConnectionRule
+
 class FixedNumRandCR(ConnectionRule):
 
     def __init__(self, simulator, connector, n, pre_size, post_size):

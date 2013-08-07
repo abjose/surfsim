@@ -1,12 +1,14 @@
 
 import numpy as np
 
-class TemplateCR(ConnectionRule):
+from connection_rule import ConnectionRule
+
+class FixedProbCR(ConnectionRule):
 
     def __init__(self, simulator, connector, P):
         # P in [0, 1] is prob. to connect group i in pre to group j in post
         # 0 never connects, 1 always does (all to all)
-        super(TemplateCR, self).__init__(simulator, connector)
+        super(FixedProbCR, self).__init__(simulator, connector)
         self.P = P
 
     def update(self):
