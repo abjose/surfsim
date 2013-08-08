@@ -83,7 +83,7 @@ if __name__=='__main__':
     # also superimpose dots for BCM outputs
     
     print 'STARTING SIMULATION'
-    for i in range(10):
+    for i in range(1000):
         S.step_simulation()
         #S.list_nodes()
         print 'Completed simulation step', i
